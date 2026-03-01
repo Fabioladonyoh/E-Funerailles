@@ -5,4 +5,5 @@ public enum TypeReservation {
     CORBILLARD,
     CERCUEIL,
     COMPLET
+    
 }
