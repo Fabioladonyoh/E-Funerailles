@@ -22,10 +22,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec email: " + email));
 
+        // Conversion enum Role -> String pour Spring Security
+        String roleName = user.getRole().name(); // name() renvoie "ADMINISTRATEUR", "LOGISTICIEN", "AGENT"
+
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
-                .roles(user.getRole().getName()) // attention: Role.name doit être "ADMIN", "USER", etc.
+                .roles(roleName) // Spring Security attend le nom du rôle sans "ROLE_" ici
                 .build();
     }
 }

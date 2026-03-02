@@ -1,8 +1,9 @@
 package tg.Ipnet.efunerailles.ServiceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import tg.Ipnet.efunerailles.Entity.Role;
-import tg.Ipnet.efunerailles.Exceptions.ResourceNotFoundException;
 import tg.Ipnet.efunerailles.Repository.RoleRepository;
 import tg.Ipnet.efunerailles.Service.RoleService;
 
@@ -14,40 +15,37 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
+    @Autowired
     public RoleServiceImpl(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
     @Override
-    public Role saveRole(Role role) {
-        return roleRepository.save(role);
-    }
-
-    @Override
-    public Role updateRole(Long id, Role role) {
-        Role existing = roleRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Role non trouvé avec id : " + id));
-
-        existing.setId(role.getId());
-        return roleRepository.save(existing);
-    }
-
-    @Override
-    public void deleteRole(Long id) {
-        Role existing = roleRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Role non trouvé avec id : " + id));
-
-        roleRepository.delete(existing);
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
     }
 
     @Override
     public Role getRoleById(Long id) {
         return roleRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Role non trouvé avec id : " + id));
+                .orElseThrow(() -> new RuntimeException("Role not found with id: " + id));
     }
 
     @Override
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+    public Role createRole(Role role) {
+        return roleRepository.save(role);
+    }
+
+    @Override
+    public Role updateRole(Long id, Role roleDetails) {
+        Role role = getRoleById(id);
+        role.setName(roleDetails.getName());
+        return roleRepository.save(role);
+    }
+
+    @Override
+    public void deleteRole(Long id) {
+        Role role = getRoleById(id);
+        roleRepository.delete(role);
     }
 }

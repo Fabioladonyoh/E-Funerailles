@@ -3,7 +3,7 @@ package tg.Ipnet.efunerailles.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,32 +25,48 @@ import tg.Ipnet.efunerailles.Service.RoleService;
 @CrossOrigin
 public class RoleController {
 	
+	 private final RoleService roleService;
+
 	    @Autowired
-	    private RoleService roleService;
+	    public RoleController(RoleService roleService) {
+	        this.roleService = roleService;
+	    }
 
+	    // GET : tous les rôles
 	    @GetMapping
-	    public List<Role> getAllRoles() {
-	        return roleService.getAllRoles();
+	    public ResponseEntity<List<Role>> getAllRoles() {
+	        List<Role> roles = roleService.getAllRoles();
+	        return ResponseEntity.ok(roles);
 	    }
 
+	    // GET : rôle par id
 	    @GetMapping("/{id}")
-	    public Role getRoleById(@PathVariable Long id) {
-	        return roleService.getRoleById(id).orElse(null);
+	    public ResponseEntity<Role> getRoleById(@PathVariable Long id) {
+	        Role role = roleService.getAllRoles().stream()
+	                .filter(r -> r.getId().equals(id))
+	                .findFirst()
+	                .orElseThrow(() -> new RuntimeException("Role not found with id: " + id));
+	        return ResponseEntity.ok(role);
 	    }
 
+	    // POST : créer un rôle
 	    @PostMapping
-	    public Role createRole(@RequestBody Role role) {
-	        return roleService.saveRole(role);
+	    public ResponseEntity<Role> createRole(@RequestBody Role role) {
+	        Role newRole = roleService.createRole(role);
+	        return ResponseEntity.ok(newRole);
 	    }
 
+	    // PUT : mettre à jour un rôle
 	    @PutMapping("/{id}")
-	    public Role updateRole(@PathVariable Long id, @RequestBody Role roleDetails) {
-	        return roleService.updateRole(id, roleDetails);
+	    public ResponseEntity<Role> updateRole(@PathVariable Long id, @RequestBody Role roleDetails) {
+	        Role updatedRole = roleService.updateRole(id, roleDetails);
+	        return ResponseEntity.ok(updatedRole);
 	    }
 
+	    // DELETE : supprimer un rôle
 	    @DeleteMapping("/{id}")
-	    public void deleteRole(@PathVariable Long id) {
+	    public ResponseEntity<String> deleteRole(@PathVariable Long id) {
 	        roleService.deleteRole(id);
+	        return ResponseEntity.ok("Role deleted successfully");
 	    }
-    
 }

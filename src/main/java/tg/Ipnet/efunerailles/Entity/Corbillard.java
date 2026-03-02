@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import tg.Ipnet.efunerailles.Enums.StatutCorbillard;
 import tg.Ipnet.efunerailles.Utils.BaseEntity;
 
 @Entity
@@ -17,6 +18,9 @@ public class Corbillard extends BaseEntity{
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
+	    
+	    @Column(unique = true)
+	    private String code;
 
 	    @NotBlank
 	    @Column(nullable = false, unique = true, length = 50)
@@ -30,6 +34,8 @@ public class Corbillard extends BaseEntity{
 	    @Column(nullable = false)
 	    private Boolean disponibilite;
     
+	    @Enumerated(EnumType.STRING)
+	    private StatutCorbillard statut;
     
 	public Long getId() {
 		return id;

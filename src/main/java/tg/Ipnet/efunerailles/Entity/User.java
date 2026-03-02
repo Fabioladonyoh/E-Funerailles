@@ -4,6 +4,7 @@ package tg.Ipnet.efunerailles.Entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import tg.Ipnet.efunerailles.Enums.Role;
 import tg.Ipnet.efunerailles.Utils.BaseEntity;
 
 @Entity
@@ -33,8 +34,7 @@ public class User extends BaseEntity{
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
     
     

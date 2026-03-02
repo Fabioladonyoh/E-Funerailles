@@ -1,6 +1,6 @@
 package tg.Ipnet.efunerailles.dto;
 
-import tg.Ipnet.efunerailles.Entity.Role;
+import tg.Ipnet.efunerailles.Enums.Role;
 
 public class UserDTO {
 

@@ -36,16 +36,20 @@ public class Facture extends BaseEntity{
     @NotNull
     @Column(nullable = false)
     private LocalDate date;
-
+    
     @Enumerated(EnumType.STRING)
-    private StatutFacture statut = StatutFacture.NON_PAYEE;
+    private StatutFacture statut;
     
     @OneToOne
     @JoinColumn(name = "defunt_id", nullable = false)
     private Defunt defunt;
 
-    @OneToMany(mappedBy = "facture")
+    @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL)
     private List<Paiement> paiements;
+    
+    @OneToOne
+    @JoinColumn(name = "dossier_id", nullable = false)
+    private Dossier dossier;
 
 
 	public Long getId() {
