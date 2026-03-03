@@ -11,6 +11,8 @@ import tg.Ipnet.efunerailles.Entity.Paiement;
 import tg.Ipnet.efunerailles.Enums.StatutFacture; // ✅ CORRIGÉ (pas Entity !)
 import tg.Ipnet.efunerailles.Exceptions.ResourceNotFoundException;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +58,10 @@ public class PaiementServiceImpl implements PaiementService {
                 .orElseThrow(() -> new ResourceNotFoundException("Paiement not found with id " + id));
         paiementRepository.delete(paiement);
     }
+    
+    
+
+    
 
     // 🔥 LOGIQUE METIER PROPRE
     @Override
