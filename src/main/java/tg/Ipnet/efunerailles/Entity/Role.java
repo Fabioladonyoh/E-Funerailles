@@ -36,10 +36,6 @@ public class Role extends BaseEntity{
 		this.name = name;
 	}
 
-	public Role orElse(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
     
     
     

@@ -1,0 +1,170 @@
+<div class="dashboard-wrapper">
+  
+  <header class="dashboard-header">
+    <div class="logo-area">
+      <img src="assets/logo-centre-funeraire.png" alt="E-Funérailles" class="logo">
+      <div class="logo-text">
+        <span class="brand">E-Funérailles</span>
+        <span class="subtitle">Gestion digitale des obsèques</span>
+      </div>
+    </div>
+    <div class="user-area">
+      <span class="user-info">
+        <span class="user-name">Ama Koffi</span>
+        <span class="user-role">Agent d'Accueil</span>
+      </span>
+      <button class="btn-logout" routerLink="/login">
+        <span class="material-icons logout-icon">logout</span>
+        Déconnexion
+      </button>
+    </div>
+  </header>
+
+  <main class="dashboard-content">
+    
+    <div class="search-bar-container">
+      <span class="material-icons search-icon">search</span>
+      <input type="text" placeholder="Rechercher un dossier..." class="search-input">
+    </div>
+
+    <div class="cards-grid">
+      <div class="dossier-card" *ngFor="let dossier of dossiers">
+        
+        <div class="card-header">
+          <span class="dossier-code">{{ dossier.code }}</span>
+          <span class="status-badge" [ngClass]="{
+            'status-in-progress': dossier.status === 'En cours',
+            'status-planned': dossier.status === 'Planifié',
+            'status-completed': dossier.status === 'Terminé'
+          }">{{ dossier.status }}</span>
+        </div>
+
+        <h3 class="deceased-name">{{ dossier.deceasedName }}</h3>
+        
+        <div class="dossier-details">
+          <div class="detail-item">
+            <span class="material-icons">event</span>
+            <span>{{ dossier.date }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="material-icons">schedule</span>
+            <span>{{ dossier.time }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="material-icons">person_outline</span>
+            <span>{{ dossier.contactName }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="material-icons">call</span>
+            <span>{{ dossier.phone }}</span>
+          </div>
+        </div>
+
+        <hr class="card-divider">
+
+        <div class="financial-section">
+          <div class="amount-row">
+            <span class="label">Montant total</span>
+            <span class="value total">{{ dossier.totalAmount | number:'1.0-0' }} FCFA</span>
+          </div>
+          <div class="amount-row">
+            <span class="label">Payé</span>
+            <span class="value paid">{{ dossier.paidAmount | number:'1.0-0' }} FCFA</span>
+          </div>
+          
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" 
+                 [style.width.%]="getPaymentPercentage(dossier.paidAmount, dossier.totalAmount)">
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-manage-payment" (click)="openPaymentModal(dossier)">Gérer paiement</button>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedDossier" (click)="closePaymentModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h2>Saisir un paiement</h2>
+      <button class="btn-close" (click)="closePaymentModal()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="summary-card">
+        <div class="summary-row border-bottom">
+          <div class="summary-col">
+            <span class="label">Dossier</span>
+            <span class="value-strong">{{ selectedDossier.code }}</span>
+          </div>
+          <div class="summary-col text-right">
+            <span class="label">Défunt</span>
+            <span class="value-strong">{{ selectedDossier.deceasedName }}</span>
+          </div>
+        </div>
+        
+        <div class="summary-row">
+          <div class="summary-col">
+            <span class="label">Montant total</span>
+            <span class="value-strong">{{ selectedDossier.totalAmount | number:'1.0-0' }} FCFA</span>
+          </div>
+          <div class="summary-col">
+            <span class="label">Déjà payé</span>
+            <span class="value-success">{{ selectedDossier.paidAmount | number:'1.0-0' }} FCFA</span>
+          </div>
+          <div class="summary-col">
+            <span class="label">Restant</span>
+            <span class="value-danger">{{ remainingAmount | number:'1.0-0' }} FCFA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <label class="section-title">Montant du paiement *</label>
+        <div class="input-wrapper">
+          <input 
+            type="number" 
+            [(ngModel)]="paymentAmount" 
+            placeholder="0"
+            class="amount-input"
+          >
+          <span class="currency-suffix">FCFA</span>
+        </div>
+        <span class="helper-text">Maximum: {{ remainingAmount | number:'1.0-0' }} FCFA</span>
+      </div>
+
+      <div class="form-section">
+        <label class="section-title">Mode de paiement *</label>
+        <div class="payment-modes-grid">
+          <div 
+            class="mode-card" 
+            *ngFor="let mode of paymentModes"
+            [class.active]="selectedPaymentMode === mode.id"
+            (click)="selectPaymentMode(mode.id)"
+          >
+            <span class="material-icons mode-icon">{{ mode.icon }}</span>
+            <span class="mode-name">{{ mode.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closePaymentModal()">Annuler</button>
+      <button 
+        class="btn-submit" 
+        [disabled]="!paymentAmount || !selectedPaymentMode || paymentAmount > remainingAmount"
+        (click)="submitPayment()"
+      >
+        Valider le paiement
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -21,7 +21,7 @@ public class ReservationController {
 
     @GetMapping("/{id}")
     public Reservation getReservationById(@PathVariable Long id) {
-        return reservationService.getReservationById(id).orElse(null);
+        return reservationService.getReservationById(id);
     }
 
     @PostMapping

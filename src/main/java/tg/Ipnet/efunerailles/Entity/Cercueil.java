@@ -75,10 +75,6 @@ public class Cercueil extends BaseEntity {
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
 	}
-	public Cercueil orElse(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
     
 	
     

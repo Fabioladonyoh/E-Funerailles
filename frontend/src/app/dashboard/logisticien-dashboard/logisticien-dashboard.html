@@ -1,0 +1,99 @@
+<div class="dashboard-wrapper">
+  
+  <header class="dashboard-header">
+    <div class="logo-area">
+      <img src="assets/logo-centre-funeraire.png" alt="E-Funérailles" class="logo">
+      <div class="logo-text">
+        <span class="brand">E-Funérailles</span>
+        <span class="subtitle">Gestion digitale des obsèques</span>
+      </div>
+    </div>
+    <div class="user-area">
+      <span class="user-info">
+        <span class="user-name">Kwame Addo</span>
+        <span class="user-role">Logisticien</span>
+      </span>
+      <button class="btn-logout">
+        <span class="material-icons logout-icon">logout</span>
+        Déconnexion
+      </button>
+    </div>
+  </header>
+
+  <main class="dashboard-content">
+    
+    <div class="page-title-area">
+      <div class="titles">
+        <h1>Interface Logisticien</h1>
+        <p class="subtitle">Gestion de l'inventaire et des véhicules</p>
+      </div>
+      <div class="header-actions" *ngIf="alerts.length > 0">
+        <div class="alert-badge-global">
+          <span class="material-icons">error_outline</span>
+          {{ alerts.length }} alerte{{ alerts.length > 1 ? 's' : '' }} de stock
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-banner" *ngIf="alerts.length > 0">
+      <div class="alert-header">
+        <span class="material-icons warning-icon">error_outline</span>
+        <h2>Alertes de stock</h2>
+      </div>
+      <div class="alert-list">
+        <div class="alert-item" *ngFor="let alert of alerts">
+          <div class="alert-info">
+            <span class="item-name">{{ alert.name }}</span>
+            <span class="item-stock">Stock actuel: {{ alert.quantity }} / Seuil: {{ alert.threshold }}</span>
+          </div>
+          <button class="btn-restock-danger">Réapprovisionner</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs-container">
+      <button class="tab-btn" [class.active]="activeTab === 'Inventaire'" (click)="activeTab = 'Inventaire'">Inventaire</button>
+      <button class="tab-btn" [class.active]="activeTab === 'Corbillards'" (click)="activeTab = 'Corbillards'">Corbillards</button>
+    </div>
+
+    <div class="inventory-grid" *ngIf="activeTab === 'Inventaire'">
+      
+      <div class="category-column" *ngFor="let category of categories">
+        <div class="category-header">
+          <h3>{{ category }}</h3>
+        </div>
+
+        <div class="items-list">
+          <div class="item-card" *ngFor="let item of getItemsByCategory(category)" [class.low-stock-card]="isLowStock(item)">
+            
+            <div class="card-top">
+              <h4 class="item-title">{{ item.name }}</h4>
+              <span class="stock-badge" [ngClass]="isLowStock(item) ? 'badge-danger' : 'badge-success'">
+                {{ item.quantity }} unités
+              </span>
+            </div>
+
+            <div class="card-details">
+              <div class="detail-row">
+                <span class="label">Prix unitaire:</span>
+                <span class="value">{{ item.price | number:'1.0-0' }} FCFA</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Fournisseur:</span>
+                <span class="value">{{ item.supplier }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Dernier restock:</span>
+                <span class="value">{{ item.lastRestock }}</span>
+              </div>
+            </div>
+
+            <button class="btn-add-stock">Ajouter stock</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>

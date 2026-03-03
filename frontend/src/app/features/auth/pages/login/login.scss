@@ -1,0 +1,163 @@
+// Variables de couleurs (tu peux les mettre dans ton styles.scss global plus tard)
+$primary-color: #0b8e7d; // Le vert/canard du bouton
+$bg-color: #f6f9f8; // La couleur de fond très claire
+$text-dark: #1a202c;
+$text-gray: #718096;
+$border-color: #e2e8f0;
+$demo-bg: #f8f9fa;
+
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $bg-color;
+  font-family: 'Inter', 'Roboto', sans-serif; // Utilise une police moderne
+}
+
+.login-card {
+  background: white;
+  width: 100%;
+  max-width: 450px;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+
+  .logo {
+    width: 80px; // Ajuste selon la taille réelle de ton image
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+    color: $text-dark;
+    margin: 10px 0 5px;
+    font-weight: 700;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: $text-gray;
+    margin: 0;
+  }
+}
+
+.login-form {
+  .form-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: $text-dark;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: $text-dark;
+      border: 1px solid $border-color;
+      border-radius: 8px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s ease;
+
+      &::placeholder {
+        color: #a0aec0;
+      }
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 1px $primary-color;
+      }
+    }
+  }
+
+  .btn-submit {
+    width: 100%;
+    background-color: $primary-color;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+
+    &:hover {
+      background-color: darken($primary-color, 5%);
+    }
+  }
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  background: $border-color;
+  margin: 30px 0;
+}
+
+.demo-section {
+  text-align: center;
+
+  .demo-title {
+    font-size: 13px;
+    color: $text-gray;
+    margin-bottom: 10px;
+  }
+
+  .demo-box {
+    background-color: $demo-bg;
+    padding: 12px;
+    border-radius: 8px;
+    
+    p {
+      margin: 0;
+      font-size: 13px;
+      color: $text-dark;
+
+      strong {
+        font-weight: 700;
+      }
+    }
+  }
+}
+.register-section {
+  margin-top: 1.5rem;
+  text-align: center;
+  
+  p {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-register {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: transparent;
+    color: #0b8e7d; // Ta couleur primaire
+    border: 1px solid #0b8e7d;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #e6f7f3; // Un fond très léger au survol
+    }
+  }
+}

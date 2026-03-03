@@ -33,7 +33,7 @@ public class CercueilController {
 
 	    @GetMapping("/{id}")
 	    public Cercueil getCercueilById(@PathVariable Long id) {
-	        return cercueilService.getCercueilById(id).orElse(null);
+	        return cercueilService.getCercueilById(id);
 	    }
 
 	    @PostMapping

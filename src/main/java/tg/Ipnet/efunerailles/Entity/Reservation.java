@@ -104,10 +104,6 @@ public class Reservation extends BaseEntity{
 		this.cercueil = cercueil;
 	}
 
-	public Reservation orElse(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
     

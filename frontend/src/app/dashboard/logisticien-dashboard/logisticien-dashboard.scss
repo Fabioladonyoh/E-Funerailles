@@ -1,0 +1,194 @@
+$primary-color: #0b8e7d;
+$bg-color: #f6f9f8;
+$text-dark: #1a202c;
+$text-gray: #718096;
+$border-color: #e2e8f0;
+
+$danger-color: #dc2626;
+$danger-bg: #fef2f2;
+$danger-border: #fca5a5;
+
+$success-bg: #e6f7f3;
+$success-text: #0b8e7d;
+
+.dashboard-wrapper {
+  min-height: 100vh;
+  background-color: $bg-color;
+  font-family: 'Inter', sans-serif;
+}
+
+// HEADER (Même style que l'agent/admin)
+.dashboard-header {
+  background-color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $border-color;
+
+  .logo-area { display: flex; align-items: center; gap: 1rem; .logo { height: 40px; } }
+  .logo-text { display: flex; flex-direction: column; line-height: 1.2; .brand { font-weight: bold; color: $text-dark; font-size: 1.2rem; } .subtitle { color: $text-gray; font-size: 0.8rem; } }
+  
+  .user-area {
+    display: flex; align-items: center; gap: 1.5rem;
+    .user-info { display: flex; flex-direction: column; text-align: right; .user-name { font-weight: bold; color: $text-dark; } .user-role { color: $text-gray; font-size: 0.85rem; } }
+    .btn-logout { display: flex; align-items: center; gap: 0.5rem; background-color: #fff1f0; color: #ff3b30; border: 1px solid #ffdfdd; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 500; cursor: pointer; transition: 0.2s; &:hover { background-color: #ffe4e2; } }
+  }
+}
+
+.dashboard-content {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+// TITRE ET BADGE GLOBAL
+.page-title-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  
+  h1 { font-size: 1.8rem; color: $text-dark; margin: 0 0 0.5rem 0; }
+  .subtitle { color: $text-gray; margin: 0; }
+
+  .alert-badge-global {
+    display: flex; align-items: center; gap: 0.5rem;
+    color: $danger-color;
+    background-color: $danger-bg;
+    border: 1px solid $danger-border;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+}
+
+// BANNIERE D'ALERTE
+.alert-banner {
+  background-color: $danger-bg;
+  border: 1px solid $danger-border;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+
+  .alert-header {
+    display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem;
+    color: $danger-color;
+    h2 { font-size: 1.2rem; margin: 0; }
+  }
+
+  .alert-list {
+    .alert-item {
+      display: flex; justify-content: space-between; align-items: center;
+      background-color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      border: 1px solid $border-color;
+      
+      .alert-info {
+        display: flex; flex-direction: column; gap: 0.3rem;
+        .item-name { font-weight: 600; color: $text-dark; }
+        .item-stock { font-size: 0.9rem; color: $text-gray; }
+      }
+
+      .btn-restock-danger {
+        background-color: $danger-color; color: white;
+        border: none; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 600; cursor: pointer;
+        transition: 0.2s;
+        &:hover { background-color: darken($danger-color, 10%); }
+      }
+    }
+  }
+}
+
+// ONGLETS
+.tabs-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  .tab-btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: 1px solid $border-color;
+    background-color: white;
+    color: $text-dark;
+    transition: 0.2s;
+
+    &.active {
+      background-color: $primary-color;
+      color: white;
+      border-color: $primary-color;
+    }
+  }
+}
+
+// GRILLE INVENTAIRE
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+
+  .category-column {
+    background-color: white;
+    border-radius: 16px;
+    border: 1px solid $border-color;
+    overflow: hidden;
+
+    .category-header {
+      background-color: #f2fbf7; // Fond vert très clair de l'en-tête
+      padding: 1.5rem;
+      border-bottom: 1px solid $border-color;
+      h3 { margin: 0; font-size: 1.2rem; color: $text-dark; }
+    }
+
+    .items-list {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .item-card {
+        border: 1px solid $border-color;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+
+        &.low-stock-card {
+          border-color: $danger-border;
+          background-color: #fffafaf5; // Légère teinte rouge globale
+        }
+
+        .card-top {
+          display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;
+          .item-title { margin: 0; font-size: 1.05rem; color: $text-dark; }
+          
+          .stock-badge {
+            padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+            &.badge-success { background-color: $success-bg; color: $success-text; }
+            &.badge-danger { background-color: $danger-bg; color: $danger-color; }
+          }
+        }
+
+        .card-details {
+          display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem;
+          .detail-row {
+            display: flex; justify-content: space-between; font-size: 0.9rem;
+            .label { color: $text-gray; }
+            .value { color: $text-dark; font-weight: 500; text-align: right; }
+          }
+        }
+
+        .btn-add-stock {
+          width: 100%; padding: 0.8rem;
+          background-color: $success-bg; color: $primary-color;
+          border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;
+          &:hover { background-color: darken($success-bg, 3%); }
+        }
+      }
+    }
+  }
+}

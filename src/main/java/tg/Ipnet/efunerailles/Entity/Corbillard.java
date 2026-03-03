@@ -55,10 +55,6 @@ public class Corbillard extends BaseEntity{
 	public void setDisponibilite(Boolean disponibilite) {
 		this.disponibilite = disponibilite;
 	}
-	public Corbillard orElse(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
     
     
 }

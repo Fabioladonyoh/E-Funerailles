@@ -35,7 +35,7 @@ public class RoleController {
 
 	    @GetMapping("/{id}")
 	    public Role getRoleById(@PathVariable Long id) {
-	        return roleService.getRoleById(id).orElse(null);
+        return roleService.getRoleById(id);
 	    }
 
 	    @PostMapping

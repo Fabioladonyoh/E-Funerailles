@@ -21,7 +21,7 @@ public class CorbillardController {
 
     @GetMapping("/{id}")
     public Corbillard getCorbillardById(@PathVariable Long id) {
-        return corbillardService.getCorbillardById(id).orElse(null);
+        return corbillardService.getCorbillardById(id);
     }
 
     @PostMapping
