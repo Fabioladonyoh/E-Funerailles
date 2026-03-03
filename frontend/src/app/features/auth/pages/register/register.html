@@ -45,7 +45,8 @@
           placeholder="Minimum 6 caractères"
         >
         <div *ngIf="isSubmitted && f['password'].errors" class="error-text">
-          <small>Le mot de passe doit contenir au moins 6 caractères.</small>
+          <small *ngIf="f['password'].errors['required']">Le mot de passe est requis.</small>
+          <small *ngIf="f['password'].errors['minlength']">Minimum 6 caractères.</small>
         </div>
       </div>
 
@@ -62,7 +63,17 @@
         </div>
       </div>
 
-      <button type="submit" class="btn-submit">S'inscrire</button>
+      <div *ngIf="successMessage" class="success-message" style="color: green; margin-bottom: 10px; font-size: 0.9em; text-align: center;">
+        <strong>{{ successMessage }}</strong>
+      </div>
+      
+      <div *ngIf="errorMessage" class="error-message" style="color: red; margin-bottom: 10px; font-size: 0.9em; text-align: center;">
+        <strong>{{ errorMessage }}</strong>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="isLoading">
+        {{ isLoading ? 'Création en cours...' : 'S\'inscrire' }}
+      </button>
 
     </form>
 

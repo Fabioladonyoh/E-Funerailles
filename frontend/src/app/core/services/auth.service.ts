@@ -18,4 +18,6 @@ export class AuthService {
   register(userInfo: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/signup`, userInfo);
   }
+  
+
 }

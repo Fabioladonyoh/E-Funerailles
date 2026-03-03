@@ -7,16 +7,22 @@
       <p class="subtitle">Gestion digitale des obsèques</p>
     </div>
 
-    <form class="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       
       <div class="form-group">
         <label for="email">Email</label>
         <input 
           type="email" 
           id="email" 
+          formControlName="email"
           placeholder="votre.email@efunerailles.tg"
           autocomplete="email"
+          [ngClass]="{'is-invalid': isSubmitted && f['email'].errors}"
         >
+        <div *ngIf="isSubmitted && f['email'].errors" class="invalid-feedback">
+          <div *ngIf="f['email'].errors['required']">L'email est requis</div>
+          <div *ngIf="f['email'].errors['email']">Le format de l'email est invalide</div>
+        </div>
       </div>
 
       <div class="form-group">
@@ -24,12 +30,28 @@
         <input 
           type="password" 
           id="password" 
+          formControlName="password"
           placeholder="........"
           autocomplete="current-password"
+          [ngClass]="{'is-invalid': isSubmitted && f['password'].errors}"
         >
+        <div *ngIf="isSubmitted && f['password'].errors" class="invalid-feedback">
+          <div *ngIf="f['password'].errors['required']">Le mot de passe est requis</div>
+          <div *ngIf="f['password'].errors['minlength']">Minimum 6 caractères</div>
+        </div>
       </div>
 
-      <button type="submit" class="btn-submit">Se connecter</button>
+      <div *ngIf="successMessage" class="success-message" style="color: green; margin-bottom: 10px; font-size: 0.9em; text-align: center;">
+        <strong>{{ successMessage }}</strong>
+      </div>
+      
+      <div *ngIf="errorMessage" class="error-message" style="color: red; margin-bottom: 10px; font-size: 0.9em; text-align: center;">
+        <strong>{{ errorMessage }}</strong>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="isLoading">
+        {{ isLoading ? 'Connexion en cours...' : 'Se connecter' }}
+      </button>
 
       <div class="register-section">
         <p>Pas encore de compte ?</p>
@@ -42,8 +64,8 @@
 
     <div class="demo-section">
       <p class="demo-title">Comptes de démonstration :</p>
-      <div class="demo-box">
-        <p><strong>Admin:</strong> kofi.mensah&#64;efunerailles.tg / admin123</p>
+      <div class="demo-box" (click)="fillDemoCredentials()" style="cursor: pointer;">
+        <p><strong>Admin:</strong> kofi.mensah@efunerailles.tg / admin123</p>
       </div>
     </div>
 
