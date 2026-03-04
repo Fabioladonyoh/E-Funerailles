@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/defunts")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class DefuntController {
 	
 

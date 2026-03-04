@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ceremonies")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class CeremonieController {
 
     @Autowired

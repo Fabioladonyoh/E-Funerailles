@@ -2,8 +2,9 @@ package tg.Ipnet.efunerailles.Enums;
 
 public enum StatutDossier {
 	
-	 EN_COURS,
-	    PLANIFIE,
-	    TERMINE
+	 PLANIFIE,
+	    TERMINE,
+	    EN_COURS,
+	    EN_ATTENTE 
 
 }

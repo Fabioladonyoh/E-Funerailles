@@ -20,7 +20,7 @@ import tg.Ipnet.efunerailles.Service.CercueilService;
 @RestController
 @RequestMapping("/api/cercueils")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class CercueilController {
 	
 	    @Autowired

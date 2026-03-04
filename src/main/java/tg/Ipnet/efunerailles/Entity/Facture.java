@@ -93,6 +93,13 @@ public class Facture extends BaseEntity{
 	}
 
 
+	@PrePersist
+	@PreUpdate
+	private void calculateReste() {
+	    if (montantTotal != null && montantPaye != null) {
+	        this.resteAPayer = montantTotal - montantPaye;
+	    }
+	}
 	
 	
 	public StatutFacture getStatut() {

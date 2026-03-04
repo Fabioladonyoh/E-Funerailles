@@ -2,7 +2,6 @@ package tg.Ipnet.efunerailles.Controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,13 +20,12 @@ import tg.Ipnet.efunerailles.Service.RoleService;
 
 @RestController
 @RequestMapping("/api/roles")
-@RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class RoleController {
 	
 	 private final RoleService roleService;
 
-	    @Autowired
+	  
 	    public RoleController(RoleService roleService) {
 	        this.roleService = roleService;
 	    }

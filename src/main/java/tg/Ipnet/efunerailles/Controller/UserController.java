@@ -22,7 +22,7 @@ import tg.Ipnet.efunerailles.Service.UserService;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class UserController {
 
 	    @Autowired

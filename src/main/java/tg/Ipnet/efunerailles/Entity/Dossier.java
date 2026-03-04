@@ -1,5 +1,7 @@
 package tg.Ipnet.efunerailles.Entity;
 
+
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -16,6 +18,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -38,12 +41,12 @@ public class Dossier extends BaseEntity{
     @Column(nullable = false, unique = true, length = 100)
 	private String numeroDossier;
 
-    @NotBlank
+    @NotNull
     @Column(nullable = false)
 	private LocalDate dateCeremonie;
 	
 
-    @NotBlank
+    @NotNull
     @Column(nullable = false, length = 100)
 	private LocalTime heureCeremonie;
 	

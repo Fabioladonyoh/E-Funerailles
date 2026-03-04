@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/familles")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class FamilleController {
 	
     @Autowired

@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/corbillards")
+@CrossOrigin(origins = "*")
 public class CorbillardController {
 
     @Autowired
