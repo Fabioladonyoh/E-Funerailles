@@ -29,8 +29,7 @@ public class Facture extends BaseEntity{
     @Column(nullable = false)
     private Double montantPaye;
 
-    @NotNull
-    @Column(nullable = false)
+    
     private Double resteAPayer;
 
     @NotNull
