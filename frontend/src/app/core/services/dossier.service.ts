@@ -1,33 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DossierCard } from '../models/dossier.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class DossierService {
-  private apiUrl = 'http://localhost:8181/api/dossiers'; // À confirmer
+  private apiUrl = 'http://localhost:8181/api/factures/dossiers';
 
   constructor(private http: HttpClient) { }
 
-  getAllDossiers(): Observable<DossierCard[]> {
-    return this.http.get<DossierCard[]>(this.apiUrl);
+  // Utilisation de any ou d'une interface DossierRequest pour la création
+  createDossier(dossier: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, dossier);
   }
 
-  getDossierById(id: number): Observable<DossierCard> {
-    return this.http.get<DossierCard>(`${this.apiUrl}/${id}`);
-  }
-
-  createDossier(dossier: DossierCard): Observable<DossierCard> {
-    return this.http.post<DossierCard>(this.apiUrl, dossier);
-  }
-
-  updateDossier(id: number, dossier: DossierCard): Observable<DossierCard> {
-    return this.http.put<DossierCard>(`${this.apiUrl}/${id}`, dossier);
-  }
-
-  deleteDossier(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  getAllDossiers(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 }

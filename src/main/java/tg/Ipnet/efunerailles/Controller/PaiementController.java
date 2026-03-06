@@ -2,6 +2,8 @@ package tg.Ipnet.efunerailles.Controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+
 import tg.Ipnet.efunerailles.Entity.Paiement;
 import tg.Ipnet.efunerailles.Service.PaiementService;
 
@@ -20,10 +22,11 @@ public class PaiementController {
     }
 
     @GetMapping("/{id}")
-    public Paiement getPaiementById(@PathVariable Long id) {
-        return paiementService.getPaiementById(id).orElse(null);
-    }
-
+    public ResponseEntity<Paiement> getPaiementById(@PathVariable Long id) {
+    return paiementService.getPaiementById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+}
     @PostMapping
     public Paiement createPaiement(@RequestBody Paiement paiement) {
         return paiementService.savePaiement(paiement); // Utilisation du savePaiement pour mise à jour facture

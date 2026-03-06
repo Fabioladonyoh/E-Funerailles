@@ -1,31 +1,31 @@
 <div class="dashboard-wrapper">
   <header class="dashboard-header">
     <div class="logo-area">
-      <img src="assets/images/logo.png" alt="E-Funérailles" class="logo">
       <div class="logo-text">
         <span class="brand">E-Funérailles</span>
         <span class="subtitle">Gestion digitale des obsèques</span>
       </div>
     </div>
     <div class="user-area">
-      <span class="user-info">
-        <span class="user-name">Kofi Mensah</span>
-        <span class="user-role">Administrateur</span>
-      </span>
-      <button class="btn-logout">Déconnexion</button>
+        <span class="user-name">Administration</span>
+        <button class="btn-logout">Déconnexion</button>
     </div>
   </header>
 
   <main class="dashboard-content">
     <div class="page-title-area">
       <div class="titles">
-        <h1>Tableau de bord Administrateur</h1>
-        <p class="subtitle">Vue d'ensemble des activités</p>
+        <h1>Tableau de bord</h1>
+        <p class="subtitle">Vue d'ensemble des activités financières et dossiers</p>
       </div>
-      <div class="filter-area">
-        <select>
-          <option>Ce mois</option>
-          </select>
+      
+      <div class="action-group">
+        <button class="btn-action btn-dossier" (click)='openDossierModal()'>
+          <span class="material-icons">person_add</span> Nouveau Dossier
+        </button>
+        <button class="btn-action btn-paiement" (click)='openPaiementModal()'>
+          <span class="material-icons">account_balance_wallet</span> Paiement
+        </button>
       </div>
     </div>
 
@@ -42,25 +42,27 @@
     </div>
 
     <div class="charts-area">
-      <div class="chart-card payment-distribution">
-        <h2>Répartition des paiements</h2>
+      <div class="chart-card">
+        <h2>Modes de paiement</h2>
         <div class="distribution-bars">
-          <div class="bar-item" *ngFor="let payment of paymentDistribution">
-            <span class="payment-name">{{ payment.name }}</span>
+          <div class="bar-item" *ngFor="let p of paymentDistribution">
+            <span class="payment-name">{{ p.name }}</span>
             <div class="progress-bar-wrapper">
-              <div class="progress-bar" [style.width.%]="payment.percentage" [style.background-color]="payment.color"></div>
+              <div class="progress-bar" [style.width.%]="p.percentage" [style.background-color]="p.color"></div>
             </div>
-            <span class="payment-percentage">{{ payment.percentage }}%</span>
+            <span>{{ p.percentage }}%</span>
           </div>
         </div>
       </div>
 
       <div class="chart-card payment-rate">
-        <h2>Taux de paiement</h2>
+        <h2>Taux de Recouvrement</h2>
         <div class="gauge-chart-wrapper">
           <svg class="gauge-chart" viewBox="0 0 100 100">
-            <path class="gauge-background" d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" stroke="#e2e8f0" stroke-width="10"></path>
-            <path class="gauge-value" d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" stroke="#0b8e7d" stroke-width="10" stroke-dasharray="251.2" [attr.stroke-dashoffset]="251.2 * (1 - (paymentRate / 100))"></path>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#e2e8f0" stroke-width="10"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#0b8e7d" stroke-width="10" 
+                    stroke-dasharray="251.2" [attr.stroke-dashoffset]="251.2 * (1 - (paymentRate / 100))"
+                    transform="rotate(-90 50 50)"/>
           </svg>
           <div class="gauge-text">
             <span class="percentage">{{ paymentRate }}%</span>
@@ -75,29 +77,39 @@
       <table class="dossiers-table">
         <thead>
           <tr>
-            <th>DOSSIER</th>
+            <th>CODE</th>
             <th>DÉFUNT</th>
-            <th>CÉRÉMONIE</th>
+            <th>DATE</th>
             <th>MONTANT</th>
             <th>STATUT</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let dossier of dossiers">
-            <td class="code">{{ dossier.code }}</td>
-            <td class="deceased">{{ dossier.deceasedName }}</td>
-            <td class="ceremony">{{ dossier.ceremonyDate }}</td>
-            <td class="amount">{{ dossier.amount | number:'1.0-0' }} FCFA</td>
-            <td class="status">
-              <span class="status-badge" [ngClass]="{
-                'status-in-progress': dossier.status === 'En cours',
-                'status-planned': dossier.status === 'Planifié',
-                'status-completed': dossier.status === 'Terminé'
-              }">{{ dossier.status }}</span>
+          <tr *ngFor="let d of dossiers">
+            <td class="code">{{ d.code }}</td>
+            <td class="deceased">{{ d.deceasedName }}</td>
+            <td>{{ d.ceremonyDate }}</td>
+            <td class="amount">{{ d.amount | number }} FCFA</td>
+            <td>
+              <span class="status-badge" [ngClass]="d.status === 'Terminé' ? 'status-completed' : 'status-in-progress'">
+                {{ d.status }}
+              </span>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </main>
+
+  <app-add-dossier 
+    *ngIf="isModalOpen && activeModal === 'dossier'" 
+    (close)="closeModal()" 
+    (refresh)="handleRefresh()">
+  </app-add-dossier>
+
+  <app-add-paiement 
+    *ngIf="isModalOpen && activeModal === 'paiement'" 
+    (close)="closeModal()" 
+    (refresh)="handleRefresh()">
+  </app-add-paiement>
 </div>

@@ -5,6 +5,7 @@ public enum ModePaiement {
 	T_MONEY,
     FLOOZ,
     ESPECES,
-    CHEQUE
+    CHEQUE,
+    VIREMENT;
 
 }

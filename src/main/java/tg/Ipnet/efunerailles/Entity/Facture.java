@@ -1,6 +1,7 @@
 package tg.Ipnet.efunerailles.Entity;
 
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -11,109 +12,73 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "factures")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "factures")
-public class Facture extends BaseEntity{
+public class Facture extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotNull(message = "Le montant total est obligatoire")
     @Column(nullable = false)
-    private Double montantTotal;
+    @Builder.Default
+    private Double montantTotal = 0.0;
 
-    @NotNull
+    @NotNull(message = "Le montant payé est obligatoire")
     @Column(nullable = false)
-    private Double montantPaye;
+    @Builder.Default
+    private Double montantPaye = 0.0;
 
-    @NotNull
+    @NotNull(message = "Le reste à payer est obligatoire")
     @Column(nullable = false)
-    private Double resteAPayer;
+    @Builder.Default
+    private Double resteAPayer = 0.0;
 
-    @NotNull
+    @NotNull(message = "La date de facturation est obligatoire")
     @Column(nullable = false)
     private LocalDate date;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private StatutFacture statut = StatutFacture.NON_PAYEE;
     
-    @OneToOne
-    @JoinColumn(name = "defunt_id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "defunt_id", nullable = false, unique = true)
+    @JsonIgnoreProperties({"famille", "ceremonies", "statut", "createdAt", "updatedAt"}) 
     private Defunt defunt;
 
-    @OneToMany(mappedBy = "facture")
+    @OneToMany(mappedBy = "facture", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference 
     private List<Paiement> paiements;
 
+    /**
+     * Calcule la valeur théorique du reste à payer.
+     */
+    public Double getCalculatedReste() {
+        double total = (this.montantTotal != null) ? this.montantTotal : 0.0;
+        double paye = (this.montantPaye != null) ? this.montantPaye : 0.0;
+        return total - paye;
+    }
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Double getMontantTotal() {
-		return montantTotal;
-	}
-
-	public void setMontantTotal(Double montantTotal) {
-		this.montantTotal = montantTotal;
-	}
-
-	public Double getMontantPaye() {
-		return montantPaye;
-	}
-
-	public void setMontantPaye(Double montantPaye) {
-		this.montantPaye = montantPaye;
-	}
-
-	public Double getResteAPayer() {
-	    return montantTotal - montantPaye;
-	}
-
-	public void setResteAPayer(Double resteAPayer) {
-		this.resteAPayer = resteAPayer;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-
-	
-	
-	public StatutFacture getStatut() {
-		return statut;
-	}
-
-	public void setStatut(StatutFacture statut) {
-		this.statut = statut;
-	}
-
-	public List<Paiement> getPaiements() {
-		return paiements;
-	}
-
-	public void setPaiements(List<Paiement> paiements) {
-		this.paiements = paiements;
-	}
-
-	public Defunt getDefunt() {
-		return defunt;
-	}
-
-	public void setDefunt(Defunt defunt) {
-		this.defunt = defunt;
-	}
-    
-    
+    /**
+     * SYNCHRONISATION : Cette méthode met à jour physiquement le champ 
+     * resteAPayer et le statut pour la base de données.
+     */
+    public void calculerResteAPayer() {
+        this.resteAPayer = this.getCalculatedReste();
+        
+        if (this.resteAPayer <= 0) {
+            this.statut = StatutFacture.PAYEE;
+            this.resteAPayer = 0.0; // Évite les restes négatifs en cas de trop-perçu
+        } else if (this.montantPaye > 0) {
+            this.statut = StatutFacture.PARTIELLEMENT_PAYEE;
+        } else {
+            this.statut = StatutFacture.NON_PAYEE;
+        }
+    }
 }

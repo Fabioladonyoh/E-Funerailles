@@ -19,9 +19,10 @@ export class DefuntService {
     return this.http.get<Defunt>(`${this.apiUrl}/${id}`);
   }
 
-  createDefunt(defunt: Defunt): Observable<Defunt> {
-    return this.http.post<Defunt>(this.apiUrl, defunt);
-  }
+  // Dans defunt.service.ts
+createDefunt(defunt: Partial<Defunt>): Observable<Defunt> {
+  return this.http.post<Defunt>(this.apiUrl, defunt);
+}
 
   updateDefunt(id: number, defunt: Defunt): Observable<Defunt> {
     return this.http.put<Defunt>(`${this.apiUrl}/${id}`, defunt);

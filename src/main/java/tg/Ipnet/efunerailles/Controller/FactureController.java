@@ -1,17 +1,16 @@
 package tg.Ipnet.efunerailles.Controller;
 
 import org.springframework.web.bind.annotation.*;
-
 import tg.Ipnet.efunerailles.Entity.Facture;
 import tg.Ipnet.efunerailles.Exceptions.ResourceNotFoundException;
 import tg.Ipnet.efunerailles.Service.FactureService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/factures")
+@RequestMapping("/api/factures") // Ton URL de base est ici
 public class FactureController {
 
     @Autowired
@@ -28,9 +27,26 @@ public class FactureController {
                 .orElseThrow(() -> new ResourceNotFoundException("Facture not found with id " + id));
     }
 
+    /**
+     * Cette méthode gère l'ajout simple de facture.
+     * On utilise .save() car createFacture n'existe plus dans le Service.
+     */
     @PostMapping
     public Facture createFacture(@RequestBody Facture facture) {
-        return factureService.createFacture(facture);
+        return factureService.save(facture);
+    }
+
+    /**
+     * Cette méthode correspond à l'appel de ton formulaire Angular.
+     * URL : http://localhost:8181/api/factures/dossiers
+     */
+    @PostMapping("/dossiers")
+    public ResponseEntity<Facture> createDossier(@RequestBody Facture facture) {
+        System.out.println("Réception nouveau dossier pour : " + 
+            (facture.getDefunt() != null ? facture.getDefunt().getNom() : "Inconnu"));
+        
+        Facture savedFacture = factureService.save(facture);
+        return ResponseEntity.ok(savedFacture);
     }
 
     @PutMapping("/{id}")

@@ -3,11 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Facture } from '../models/facture.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class FactureService {
-  private apiUrl = 'http://localhost:8181/api/factures'; // À confirmer
+  private apiUrl = 'http://localhost:8181/api/factures';
 
   constructor(private http: HttpClient) { }
 
@@ -19,7 +17,12 @@ export class FactureService {
     return this.http.get<Facture>(`${this.apiUrl}/${id}`);
   }
 
-  createFacture(facture: Facture): Observable<Facture> {
+  // Utile pour afficher la facture directement depuis le dossier d'un défunt
+  getFactureByDefuntId(defuntId: number): Observable<Facture> {
+    return this.http.get<Facture>(`${this.apiUrl}/defunt/${defuntId}`);
+  }
+
+  createFacture(facture: Partial<Facture>): Observable<Facture> {
     return this.http.post<Facture>(this.apiUrl, facture);
   }
 

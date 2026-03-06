@@ -1,0 +1,58 @@
+<div class="modal-backdrop">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="header-title">
+        <span class="material-icons icon-payment">account_balance_wallet</span>
+        <h2>Enregistrer un Paiement</h2>
+      </div>
+      <button class="close-btn" (click)="close.emit()">×</button>
+    </div>
+
+    <form [formGroup]="paiementForm" (ngSubmit)="onSubmit()">
+      <div class="form-body">
+        <div class="form-group">
+          <label>Sélectionner le Dossier (Défunt)</label>
+          <select formControlName="factureId" class="form-select">
+            <option value="" disabled>Choisir un dossier en attente...</option>
+            <option *ngFor="let f of facturesDisponibles" [value]="f.id">
+  {{ getDefunt(f)?.nom }} {{ getDefunt(f)?.prenom }} 
+  (Reste : {{ f.resteAPayer | number }} FCFA)
+</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="form-group col">
+            <label>Montant du versement</label>
+            <div class="input-with-icon">
+              <input type="number" formControlName="montant" placeholder="Ex: 50000">
+              <span class="currency">FCFA</span>
+            </div>
+          </div>
+
+          <div class="form-group col">
+            <label>Mode de paiement</label>
+            <select formControlName="modePaiement" class="form-select">
+              <option value="ESPECES">Espèces</option>
+              <option value="TMONEY">TMoney</option>
+              <option value="FLOOZ">Flooz</option>
+              <option value="VIREMENT">Virement Bancaire</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Date de l'opération</label>
+          <input type="date" formControlName="datePaiement">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" (click)="close.emit()">Annuler</button>
+        <button type="submit" class="btn-primary" [disabled]="paiementForm.invalid || chargement">
+          {{ chargement ? 'Traitement...' : 'Valider le paiement' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

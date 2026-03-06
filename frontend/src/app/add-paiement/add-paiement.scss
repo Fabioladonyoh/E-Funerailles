@@ -1,0 +1,76 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(15, 23, 42, 0.7);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-container {
+  background: white;
+  border-radius: 16px;
+  width: 550px;
+  max-width: 90%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+  .modal-header {
+    background: #f8fafc;
+    padding: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+
+    .header-title {
+      display: flex; align-items: center; gap: 12px;
+      h2 { margin: 0; font-size: 1.25rem; color: #1e293b; }
+      .icon-payment { color: #f6b03c; }
+    }
+    
+    .close-btn { border: none; background: none; font-size: 24px; cursor: pointer; color: #64748b; }
+  }
+
+  .form-body {
+    padding: 1.5rem;
+    .row { display: flex; gap: 15px; }
+    .col { flex: 1; }
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+    label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #475569; font-size: 0.9rem; }
+    
+    input, .form-select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+      &:focus { outline: none; border-color: #0b8e7d; }
+    }
+  }
+
+  .input-with-icon {
+    position: relative;
+    .currency {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      color: #94a3b8; font-weight: 600; font-size: 0.85rem;
+    }
+  }
+
+  .modal-footer {
+    padding: 1.25rem 1.5rem;
+    background: #f8fafc;
+    display: flex; justify-content: flex-end; gap: 12px;
+    border-top: 1px solid #e2e8f0;
+
+    .btn-primary { 
+      background: #0b8e7d; color: white; border: none; padding: 0.75rem 1.5rem; 
+      border-radius: 8px; font-weight: 600; cursor: pointer;
+      &:disabled { opacity: 0.6; cursor: not-allowed; }
+    }
+    .btn-secondary { background: #fff; color: #64748b; border: 1px solid #e2e8f0; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; }
+  }
+}

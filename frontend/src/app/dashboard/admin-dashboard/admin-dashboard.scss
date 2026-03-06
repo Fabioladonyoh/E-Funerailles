@@ -1,64 +1,58 @@
-// src/app/dashboard/admin-dashboard.component.scss
-$primary-color: #0b8e7d; // vert/canard
-$bg-color: #f6f9f8; // fond clair
+// Variables
+$primary-color: #0b8e7d; 
+$primary-dark: #097466;
+$bg-app: #f0f4f3; // Gris très léger tirant sur le vert pour l'harmonie
+$white: #ffffff;
 $text-dark: #1a202c;
 $text-gray: #718096;
 $border-color: #e2e8f0;
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 10px 25px rgba(0, 0, 0, 0.05);
 
 .dashboard-wrapper {
   min-height: 100vh;
-  background-color: #0d4a52; // fond bleu canard
+  background-color: $bg-app; // Changé pour un fond plus doux
   font-family: 'Inter', sans-serif;
   display: flex;
   flex-direction: column;
 }
 
 .dashboard-header {
-  background-color: white;
-  padding: 1rem 2rem;
+  background-color: $white;
+  padding: 0.75rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: $shadow-sm;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 
   .logo-area {
     display: flex;
     align-items: center;
     gap: 1rem;
-
-    .logo { height: 40px; }
-
     .logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.2;
-      .brand { font-weight: bold; color: $text-dark; font-size: 1.2rem; }
-      .subtitle { color: $text-gray; font-size: 0.8rem; }
+      .brand { font-weight: 800; color: $primary-color; font-size: 1.3rem; letter-spacing: -0.5px; }
+      .subtitle { color: $text-gray; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
     }
   }
 
   .user-area {
     display: flex;
     align-items: center;
-    gap: 2rem;
-
-    .user-info {
-      display: flex;
-      flex-direction: column;
-      text-align: right;
-      .user-name { font-weight: bold; color: $text-dark; }
-      .user-role { color: $text-gray; font-size: 0.9rem; }
-    }
-
+    gap: 1.5rem;
+    .user-name { font-weight: 600; color: $text-dark; margin-right: 0.5rem; }
+    
     .btn-logout {
-      background-color: white;
-      color: #ff3b30; // rouge
-      border: 1px solid #ff3b30;
+      background-color: transparent;
+      color: #e53e3e;
+      border: 1px solid #fed7d7;
       padding: 0.5rem 1rem;
       border-radius: 8px;
       font-weight: 600;
-      cursor: pointer;
-      &:hover { background-color: #fff1f0; }
+      transition: all 0.2s ease;
+      &:hover { background-color: #fff5f5; border-color: #fc8181; }
     }
   }
 }
@@ -66,123 +60,187 @@ $border-color: #e2e8f0;
 .dashboard-content {
   flex: 1;
   padding: 2rem;
-  background-color: white;
-  width: 90%;
-  max-width: 1400px;
-  margin: 2rem auto;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  width: 95%;
+  max-width: 1440px;
+  margin: 0 auto; // Retrait du margin-top excessif
 }
 
 .page-title-area {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 2rem;
-  .titles {
-    h1 { font-size: 2rem; color: $text-dark; margin-bottom: 0.5rem; }
-    p.subtitle { color: $text-gray; }
-  }
-  .filter-area select {
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    border: 1px solid $border-color;
-    color: $text-dark;
+  
+  h1 { font-size: 1.8rem; font-weight: 800; color: $text-dark; margin: 0; }
+  p.subtitle { color: $text-gray; margin-top: 4px; }
+
+  .action-group {
+    display: flex;
+    gap: 1rem;
+    .btn-action {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      color: white;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      
+      &:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+      &:active { transform: translateY(0); }
+    }
+    .btn-dossier { background: $primary-color; }
+    .btn-paiement { background: #f6b03c; color: #4a3717; }
   }
 }
 
+// KPI GRID - Responsive
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
+
   .kpi-card {
-    background-color: white;
+    background-color: $white;
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid $border-color;
+    box-shadow: $shadow-sm;
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
+    transition: transform 0.2s;
+
+    &:hover { transform: scale(1.02); }
+
     .card-icon {
-      font-size: 2rem;
-      padding: 1rem;
+      font-size: 1.5rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 12px;
       &.green { background-color: #e6f7f3; color: $primary-color; }
       &.blue { background-color: #ebf1ff; color: #4285f4; }
       &.orange { background-color: #fff8e8; color: #f6b03c; }
     }
+    
     .card-info {
-      display: flex;
-      flex-direction: column;
-      .card-title { color: $text-gray; font-size: 0.9rem; }
-      .card-value { font-size: 1.5rem; font-weight: bold; color: $text-dark; }
+      .card-title { color: $text-gray; font-size: 0.85rem; font-weight: 500; }
+      .card-value { font-size: 1.6rem; font-weight: 800; color: $text-dark; display: block; }
     }
   }
 }
 
+// CHARTS AREA
 .charts-area {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr; // Distribution plus large que la jauge
   gap: 1.5rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 992px) { grid-template-columns: 1fr; }
+
   .chart-card {
-    background-color: white;
+    background-color: $white;
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid $border-color;
-    h2 { font-size: 1.2rem; color: $text-dark; margin-bottom: 1.5rem; }
+    box-shadow: $shadow-sm;
+    h2 { font-size: 1.1rem; font-weight: 700; color: $text-dark; margin-bottom: 1.5rem; }
   }
-  .payment-distribution .distribution-bars {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+
+  .distribution-bars {
     .bar-item {
       display: grid;
-      grid-template-columns: 80px 1fr 40px;
+      grid-template-columns: 100px 1fr 50px;
       align-items: center;
       gap: 1rem;
-      .payment-name { color: $text-dark; font-size: 0.9rem; }
-      .payment-percentage { color: $text-dark; text-align: right; font-size: 0.9rem; }
+      margin-bottom: 1.25rem;
+      
+      .payment-name { font-weight: 500; font-size: 0.9rem; }
       .progress-bar-wrapper {
-        height: 8px; background-color: $border-color; border-radius: 4px; overflow: hidden;
-        .progress-bar { height: 100%; border-radius: 4px; }
+        height: 10px; background-color: #f1f5f9; border-radius: 20px;
+        .progress-bar { height: 100%; border-radius: 20px; transition: width 1s ease-in-out; }
       }
+      .payment-percentage { font-weight: 600; font-size: 0.9rem; color: $primary-color; }
     }
   }
-  .payment-rate .gauge-chart-wrapper {
-    display: flex; justify-content: center; align-items: center;
-    position: relative; width: 200px; height: 100px; margin: 0 auto;
-    .gauge-chart { transform: rotate(-90deg);
-      .gauge-background { stroke-dasharray: 251.2; }
-      .gauge-value { stroke-dasharray: 251.2; transition: stroke-dashoffset 0.5s; }
+
+  .gauge-chart-wrapper {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .gauge-chart {
+      width: 100%;
+      height: 100%;
     }
-    .gauge-text { position: absolute; text-align: center;
-      .percentage { font-size: 2.5rem; font-weight: bold; color: $text-dark; }
-      .label { font-size: 1rem; color: $text-gray; }
+
+    .gauge-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      .percentage { font-size: 2.2rem; font-weight: 800; color: $text-dark; display: block; }
+      .label { font-size: 0.85rem; color: $text-gray; font-weight: 500; }
     }
   }
 }
 
+// TABLE AREA
 .recent-dossiers {
-  background-color: white;
+  background-color: $white;
   padding: 1.5rem;
   border-radius: 16px;
-  border: 1px solid $border-color;
-  h2 { font-size: 1.2rem; color: $text-dark; margin-bottom: 1.5rem; }
+  box-shadow: $shadow-sm;
+  overflow-x: auto; // Pour le mobile
+
+  h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; }
+
   .dossiers-table {
-    width: 100%; border-collapse: collapse;
-    thead th { text-align: left; color: $text-gray; font-size: 0.8rem; padding: 1rem; border-bottom: 1px solid $border-color; }
-    tbody td { padding: 1rem; color: $text-dark; border-bottom: 1px solid $border-color;
-      &.code { font-weight: bold; }
-      &.deceased { color: $text-dark; font-weight: 500; }
-      &.amount { color: $text-dark; font-weight: bold; }
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px; // Effet de lignes détachées
+
+    thead th {
+      padding: 1rem;
+      color: $text-gray;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      border-bottom: 2px solid $bg-app;
     }
+
+    tbody td {
+      padding: 1.25rem 1rem;
+      background-color: transparent;
+      border-bottom: 1px solid #f1f5f9;
+      
+      &.code { font-family: 'Monaco', monospace; color: $primary-color; font-weight: 600; }
+      &.deceased { font-weight: 600; }
+      &.amount { font-weight: 700; color: $text-dark; }
+    }
+
     .status-badge {
-      display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; font-weight: 500;
-      &.status-in-progress { background-color: #fff8e8; color: #f6b03c; } // jaune
-      &.status-planned { background-color: #ebf1ff; color: #4285f4; }   // bleu
-      &.status-completed { background-color: #e6f7f3; color: $primary-color; } // vert
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-block;
+      
+      &.status-completed { background: #dcfce7; color: #15803d; }
+      &.status-in-progress { background: #fef9c3; color: #854d0e; }
+      &.status-planned { background: #e0f2fe; color: #075985; }
     }
   }
 }
